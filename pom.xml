@@ -27,7 +27,7 @@
 	<distributionManagement>
 		<repository>
 			<id>releases</id>
-			<url>http://bbmnet.xicp.net:8081/nexus/content/repositories/releases/</url>
+			<url>http://www.bluebirdme.net:8081/nexus/content/repositories/releases/</url>
 		</repository>
 	</distributionManagement>
 
