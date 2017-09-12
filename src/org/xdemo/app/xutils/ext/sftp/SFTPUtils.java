@@ -53,6 +53,16 @@ public class SFTPUtils {
 	private SFTPUtils() {
 	}
 
+	/**
+	 * 获取SFTP实例
+	 * @param host 主机
+	 * @param port 端口
+	 * @param user 用户
+	 * @param password 密码
+	 * @return
+	 * @throws FileSystemException
+	 * @throws JSchException
+	 */
 	public static SFTPUtils getInstance(String host, int port, String user, String password) throws FileSystemException, JSchException {
 		FileSystemOptions vfs = new FileSystemOptions();
 		SftpFileSystemConfigBuilder.getInstance().setStrictHostKeyChecking(vfs, "no");
@@ -63,6 +73,9 @@ public class SFTPUtils {
 		return new SFTPUtils();
 	}
 
+	/**
+	 * 断开连接
+	 */
 	public void close() {
 		if (cs != null) {
 			cs.exit();
@@ -73,6 +86,12 @@ public class SFTPUtils {
 		cs = null;
 	}
 	
+	/**
+	 * 列出路径下的文件和目录
+	 * @param path
+	 * @return
+	 * @throws SftpException
+	 */
 	@SuppressWarnings("unchecked")
 	public Vector<SFTPFile> list(String path) throws SftpException{
 		Vector<LsEntry> v=cs.ls(path);
@@ -86,6 +105,12 @@ public class SFTPUtils {
 		return files;
 	}
 	
+	/**
+	 * 列出指定路径下的文件和目录，以及所有的子目录
+	 * @param path
+	 * @return
+	 * @throws SftpException
+	 */
 	@SuppressWarnings("unchecked")
 	public Vector<SFTPFile> listAll(String path) throws SftpException{
 		Vector<LsEntry> v=cs.ls(path);
@@ -101,6 +126,12 @@ public class SFTPUtils {
 		return files;
 	}
 	
+	/**
+	 * 删除目录，
+	 * @param dir 目录路径
+	 * @param deleteIfNotNull 如果目录非空，是否删除
+	 * @throws Exception
+	 */
 	public void deleteDir(String dir,boolean deleteIfNotNull) throws Exception{
 		System.out.println(dir);
 		Vector<SFTPFile> files=list(dir);
@@ -124,15 +155,31 @@ public class SFTPUtils {
 		cs.rmdir(dir);
 	}
 	
+	/**
+	 * 删除多个文件
+	 * @param files
+	 * @throws SftpException
+	 */
 	public void deleteFile(String...files) throws SftpException{
 		for(String file:files)
 			cs.rm(file);
 	}
 	
+	/**
+	 * 重命名文件
+	 * @param src
+	 * @param target
+	 * @throws SftpException
+	 */
 	public void rename(String src,String target) throws SftpException{
 		cs.rename(src, target);
 	}
 	
+	/**
+	 * 是否是文件
+	 * @param file
+	 * @return
+	 */
 	public boolean isFile(String file){
 		InputStream is=null;
 		try {
@@ -152,6 +199,11 @@ public class SFTPUtils {
 		return true;
 	}
 	
+	/**
+	 * 是否是目录
+	 * @param dir
+	 * @return
+	 */
 	public boolean isDir(String dir){
 		try {
 			cs.cd(dir);
@@ -161,7 +213,11 @@ public class SFTPUtils {
 			return false;
 		}
 	}
-	
+	/**
+	 * 创建目录,支持多级创建
+	 * @param fullPathName 全路径，如/x/y/z
+	 * @throws SftpException
+	 */
 	public void createDir(String fullPathName) throws SftpException{
 		
 		if(fullPathName.startsWith("/"))
@@ -179,6 +235,12 @@ public class SFTPUtils {
 		}
 	}
 	
+	/**
+	 * 创建目录
+	 * @param parent
+	 * @param dir
+	 * @throws SftpException
+	 */
 	public void createDir(String parent,String dir) throws SftpException {
 		if(!isDir(parent)){
 			cs.mkdir(parent);
@@ -186,6 +248,12 @@ public class SFTPUtils {
 		cs.mkdir(parent+dir);
 	}
 	
+	/**
+	 * 上传多个文件
+	 * @param ftpDir
+	 * @param files
+	 * @throws SftpException
+	 */
 	public void upload(String ftpDir,String...files) throws SftpException{
 		if(!isDir(ftpDir)){
 			createDir(ftpDir);
@@ -194,6 +262,12 @@ public class SFTPUtils {
 			cs.put(file, ftpDir);
 	}
 	
+	/**
+	 * 下载目录到本地目录
+	 * @param ftpDir
+	 * @param localDir
+	 * @throws SftpException
+	 */
 	public void downloadDir(String ftpDir,String localDir) throws SftpException{
 		if(!localDir.endsWith(File.separator)){
 			localDir+=File.separator;
@@ -213,6 +287,12 @@ public class SFTPUtils {
 		}
 	}
 	
+	/**
+	 * 下载目录到ZIP文件
+	 * @param ftpDir
+	 * @param localZipPathName
+	 * @throws SftpException
+	 */
 	public void downloadDirToZip(String ftpDir,String localZipPathName) throws SftpException{
 		byte[] buf = new byte[1024];
 
