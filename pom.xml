@@ -4,6 +4,15 @@
 	<groupId>org.xdemo.app</groupId>
 	<artifactId>xutils</artifactId>
 	<version>1.0</version>
+	
+	<developers>
+		<developer>
+			<name>大飞哥</name>
+			<email>252878950@qq.com</email>
+			<url>http://www.xdemo.org</url>
+		</developer>
+	</developers>
+	
 	<properties>
 		<ant>1.7.0</ant>
 		<mail>1.5.2</mail>
