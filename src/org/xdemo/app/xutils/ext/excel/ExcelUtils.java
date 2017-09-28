@@ -79,7 +79,7 @@ public class ExcelUtils {
 				continue;
 			}
 
-			formatter.put("get" + StringUtils.firstCharToUpperCase(field.getName()), excel.formatter());
+			formatter.put(field.getName(), excel.formatter());
 			cell = row.createCell(columnIndex);
 			cs = wb.createCellStyle();
 			cs.setBorderBottom(HSSFCellStyle.BORDER_THIN); // 下边框
@@ -117,7 +117,7 @@ public class ExcelUtils {
 				cell.setCellStyle(cs);
 				method="get" + StringUtils.firstCharToUpperCase(field.getName());
 				value = clazz.getMethod(method, null).invoke(t, null);
-				cell.setCellValue(formatter.get(method).newInstance().format(value));
+				cell.setCellValue(formatter.get(field.getName()).newInstance().format(value));
 				columnIndex++;
 			}
 			rowIndex++;
