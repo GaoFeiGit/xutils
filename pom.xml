@@ -35,7 +35,7 @@
 	<!-- 项目发布到私服 -->
 	<distributionManagement>
 		<repository>
-			<id>releases</id>
+			<id>nexus-releases</id>
 			<url>http://www.bluebirdme.net:8081/nexus/content/repositories/releases/</url>
 		</repository>
 	</distributionManagement>
