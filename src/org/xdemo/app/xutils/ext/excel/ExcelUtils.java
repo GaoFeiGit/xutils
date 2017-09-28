@@ -129,7 +129,6 @@ public class ExcelUtils {
 			}
 
 			if (excel.width() == -1) {
-				System.out.println("auto");
 				sheet.autoSizeColumn(columnIndex, true);
 			} else {
 				sheet.setColumnWidth(columnIndex, excel.width() * 256);
