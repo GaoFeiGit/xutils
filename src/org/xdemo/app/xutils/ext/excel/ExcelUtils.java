@@ -27,6 +27,7 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.xdemo.app.xutils.ext.GsonTools;
 import org.xdemo.app.xutils.j2se.ListUtils;
 import org.xdemo.app.xutils.j2se.ReflectUtils;
 import org.xdemo.app.xutils.j2se.StringUtils;
@@ -69,7 +70,7 @@ public class ExcelUtils {
 		Font font = null;
 
 		Map<String, Class<? extends ExcelFormatter>> formatter = new TreeMap<String, Class<? extends ExcelFormatter>>();
-
+		System.out.println(fields);
 		// 写入标题
 		for (Field field : fields) {
 			// field.setAccessible(true);
@@ -79,7 +80,6 @@ public class ExcelUtils {
 			}
 
 			formatter.put("get" + StringUtils.firstCharToUpperCase(field.getName()), excel.formatter());
-
 			cell = row.createCell(columnIndex);
 			cs = wb.createCellStyle();
 			cs.setBorderBottom(HSSFCellStyle.BORDER_THIN); // 下边框
@@ -96,13 +96,16 @@ public class ExcelUtils {
 			cell.setCellValue(excel.value());
 			columnIndex++;
 		}
+		
+		System.out.println(formatter);
 
 		int rowIndex = 1;
 		Object value = null;
+		String method="";
 		for (T t : list) {
 			row = sheet.createRow(rowIndex);
 			columnIndex = 0;
-			for (String method : formatter.keySet()) {
+			for (Field field : fields) {
 				cell = row.createCell(columnIndex);
 				cs = wb.createCellStyle();
 				cs.setWrapText(true);
@@ -112,6 +115,7 @@ public class ExcelUtils {
 				cs.setBorderTop(HSSFCellStyle.BORDER_THIN);// 上边框
 				cs.setBorderRight(HSSFCellStyle.BORDER_THIN);// 右边框
 				cell.setCellStyle(cs);
+				method="get" + StringUtils.firstCharToUpperCase(field.getName());
 				value = clazz.getMethod(method, null).invoke(t, null);
 				cell.setCellValue(formatter.get(method).newInstance().format(value));
 				columnIndex++;
