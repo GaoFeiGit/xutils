@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.xdemo.app</groupId>
 	<artifactId>xutils</artifactId>
-	<version>1.0</version>
+	<version>1.0.fix_1</version>
 	
 	<developers>
 		<developer>
