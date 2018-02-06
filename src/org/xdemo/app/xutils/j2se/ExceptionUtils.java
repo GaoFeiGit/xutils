@@ -27,7 +27,7 @@ public class ExceptionUtils {
 		sb.append(arrs[0] + "\n");
 		for (int i = 0; i < arrs.length; i++) {
 			String temp = arrs[i];
-			if (temp != null && temp.indexOf(packageName) > 0) {
+			if (temp != null && temp.indexOf(packageName) > 0&&temp.indexOf("$$")==-1) {
 				sb.append(temp + "\n");
 			}
 		}
@@ -43,7 +43,7 @@ public class ExceptionUtils {
 		sb.append(arrs[0] + "\n");
 		for (int i = 0; i < arrs.length; i++) {
 			String temp = arrs[i];
-			if (temp != null && temp.indexOf(packageName) > 0) {
+			if (temp != null && temp.indexOf(packageName) > 0&&temp.indexOf("$$")==-1) {
 				sb.append(temp + "\n");
 			}
 		}
