@@ -15,6 +15,22 @@ import org.apache.commons.lang3.exception.CloneFailedException;
  * @author Goofy
  */
 public class ObjectUtils {
+	
+	/**
+	 * 简化三元表达式，替换空值
+	 * @author Goofy
+	 * @Date 2018年6月22日 上午9:23:24
+	 * @param source 原对象
+	 * @param nullResult 如果空，返回这个参数
+	 * @param notNullResult 如果非空，返回这个参数
+	 * @return 
+	 */
+	public static Object replaceNull(Object source,Object nullResult,Object notNullResult){
+		if(isNull(source)){
+			return nullResult;
+		}
+		return notNullResult;
+	}
 
 	public static boolean equals(Object o1, Object o2) {
 		if (o1.equals(o2)) {
