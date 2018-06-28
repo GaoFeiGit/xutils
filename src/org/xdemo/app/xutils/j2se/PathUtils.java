@@ -44,5 +44,11 @@ public class PathUtils {
 
 		return new File(filePath).getAbsolutePath();
 	}
+	
+	public static String toOsPath(String path){
+		String separator=File.separator;
+		path=path.replace("\\", separator).replace("/", separator);
+		return path;
+	}
 
 }
