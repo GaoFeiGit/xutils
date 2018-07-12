@@ -1,5 +1,6 @@
 package org.xdemo.app.xutils.j2se;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
@@ -163,36 +164,24 @@ public class MapUtils {
 		return answer;
 	}
 
-	public static <T> T mapToEntity(Map<String, Object> map, Class<T> clazz) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException {
+	public static <T> T mapToEntity(Map<String, Object> map, Class<T> clazz) throws IllegalArgumentException, IllegalAccessException, InstantiationException {
 		T t = clazz.newInstance();
-		List<Method> setter = ReflectUtils.setterMethods(clazz, true);
-		String field;
-		for (Method m : setter) {
-			field = StringUtils.firstCharToLowerCase(m.getName().replace("set", ""));
-			m.invoke(t, new Object[] { map.get(field) });
+		List<Field> fields = ReflectUtils.getFields(clazz, true);
+		for (Field field : fields) {
+			field.setAccessible(true);
+			field.set(t, map.get(field.getName()));
 		}
 		return t;
 	}
 
-	public static <T> Map<String, Object> entityToMap(T t) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public static <T> Map<String, Object> entityToMap(T t) throws IllegalArgumentException, IllegalAccessException {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<Method> getter = ReflectUtils.getterMethods(t.getClass(), true);
-		String field;
+		List<Field> fields = ReflectUtils.getFields(t.getClass(), true);
 		Object value = null;
-		for (Method m : getter) {
-			field = StringUtils.firstCharToLowerCase(m.getName().replace("get", ""));
-			value = m.invoke(t, new Object[] {});
-			if (value == null) {
-				continue;
-			}
-			if (value instanceof String) {
-				if (value.equals("")) {
-					continue;
-				}
-			}
-			if (field.equals("productMemo"))
-				continue;
-			map.put(field, value);
+		for (Field field : fields) {
+			field.setAccessible(true);
+			value = field.get(t);
+			map.put(field.getName(), value);
 		}
 		return map;
 	}
