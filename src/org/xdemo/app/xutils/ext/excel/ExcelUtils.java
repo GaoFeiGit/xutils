@@ -16,12 +16,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -82,15 +85,15 @@ public class ExcelUtils {
 			formatter.put(field.getName(), excel.formatter());
 			cell = row.createCell(columnIndex);
 			cs = wb.createCellStyle();
-			cs.setBorderBottom(HSSFCellStyle.BORDER_THIN); // 下边框
-			cs.setBorderLeft(HSSFCellStyle.BORDER_THIN);// 左边框
-			cs.setBorderTop(HSSFCellStyle.BORDER_THIN);// 上边框
-			cs.setBorderRight(HSSFCellStyle.BORDER_THIN);// 右边框
-			cs.setFillPattern(CellStyle.SOLID_FOREGROUND);
+			cs.setBorderBottom(BorderStyle.THIN);
+			cs.setBorderLeft(BorderStyle.THIN);// 左边框
+			cs.setBorderTop(BorderStyle.THIN);// 上边框
+			cs.setBorderRight(BorderStyle.THIN);// 右边框
+			cs.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 			cs.setFillForegroundColor(excel.bgColor().getIndex());
 			font = wb.createFont();
 			font.setColor(excel.fontColor().getIndex());// HSSFColor.VIOLET.index
-			font.setBoldweight(excel.boldFont() ? Font.BOLDWEIGHT_BOLD : Font.BOLDWEIGHT_NORMAL);
+			font.setBold(true);
 			cs.setFont(font);
 			cell.setCellStyle(cs);
 			cell.setCellValue(excel.value());
@@ -109,11 +112,11 @@ public class ExcelUtils {
 				cell = row.createCell(columnIndex);
 				cs = wb.createCellStyle();
 				cs.setWrapText(true);
-				cs.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
-				cs.setBorderBottom(HSSFCellStyle.BORDER_THIN); // 下边框
-				cs.setBorderLeft(HSSFCellStyle.BORDER_THIN);// 左边框
-				cs.setBorderTop(HSSFCellStyle.BORDER_THIN);// 上边框
-				cs.setBorderRight(HSSFCellStyle.BORDER_THIN);// 右边框
+				cs.setVerticalAlignment(VerticalAlignment.CENTER);
+				cs.setBorderBottom(BorderStyle.THIN); // 下边框
+				cs.setBorderLeft(BorderStyle.THIN);// 左边框
+				cs.setBorderTop(BorderStyle.THIN);// 上边框
+				cs.setBorderRight(BorderStyle.THIN);// 右边框
 				cell.setCellStyle(cs);
 				method="get" + StringUtils.firstCharToUpperCase(field.getName());
 				value = clazz.getMethod(method, null).invoke(t, null);
