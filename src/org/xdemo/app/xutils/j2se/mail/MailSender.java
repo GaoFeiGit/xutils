@@ -112,14 +112,14 @@ public class MailSender {
 			// 设置信件的附件(用本地上的文件作为附件)
 			FileDataSource fds=null;
 			DataHandler dh=null;
-			for(File file:mail.getAttachments()){
+			/*for(File file:mail.getAttachments()){
 				html = new MimeBodyPart();
 				fds= new FileDataSource(file);
 				dh= new DataHandler(fds);
 				html.setFileName(file.getName());
 				html.setDataHandler(dh);
 				mainPart.addBodyPart(html);
-			}
+			}*/
 
 			// 将MiniMultipart对象设置为邮件内容
 			mailMessage.setContent(mainPart);
@@ -142,18 +142,18 @@ public class MailSender {
         mailInfo.setMailServerPort(SmtpServer.SMTP_163.get("port"));
         mailInfo.setValidate(true);
         mailInfo.setFromNickName("xdemo网站");
-        mailInfo.setUserName("goofy0205@163.com"); // 实际发送者  
-        mailInfo.setPassword("*******");// 您的邮箱密码  
-        mailInfo.setFromAddress("goofy0205@163.com"); // 设置发送人邮箱地址  
-        mailInfo.setToAddress("****@qq.com"); // 设置接受者邮箱地址,多个收件人逗号隔开  
+        mailInfo.setUserName("lhlaishui@163.com"); // 实际发送者  
+        mailInfo.setPassword("1q2w3e4r");// 您的邮箱密码  
+        mailInfo.setFromAddress("lhlaishui@163.com"); // 设置发送人邮箱地址  
+        mailInfo.setToAddress("252878950@qq.com"); // 设置接受者邮箱地址,多个收件人逗号隔开  
         mailInfo.setSubject("Ant测试");  
         mailInfo.setContent("<a href='http://'>xdemo</a><img src='http://.img.800cdn.com/wp-content/uploads/2014/03/logo1.png'></img>");
-        mailInfo.setAttachments(new ArrayList<File>(){
+        /*mailInfo.setAttachments(new ArrayList<File>(){
         	{
         		add(new File("D:\\xx.TTF"));
         		add(new File("D:\\xx.html"));
         	}
-        });
+        });*/
         // 这个类主要来发送邮件  
         MailSender sms = new MailSender();  
 //        sms.sendTextMail(mailInfo); // 发送文体格式  
