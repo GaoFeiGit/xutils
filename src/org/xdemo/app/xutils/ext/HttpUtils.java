@@ -238,7 +238,7 @@ public class HttpUtils {
 
 		try {
 			response.reset();
-			response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+			response.setHeader("content-disposition", "attachment;filename=" + new String(fileName.getBytes("GBK"),"ISO-8859-1"));
 
 			os = response.getOutputStream();
 
