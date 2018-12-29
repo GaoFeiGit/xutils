@@ -8,7 +8,7 @@ import java.util.List;
  * @author Goofy 252887950@qq.com <a href="http://www.xdemo.org">www.xdemo.org</a>
  * @Date 2017年8月21日 下午7:03:16
  */
-public class GisUtils {
+public class GeoUtils {
 	/**
 	 * 判断某个点，是否在某个区域内 java.awt.geom 提供用于在与二维几何形状相关的对象上定义和执行操作的 Java 2D 类。
 	 * 
@@ -135,6 +135,15 @@ public class GisUtils {
 		}
 	}
 
+	/**
+	 * 地球的半径有以下三个常用值：
+	 * 极半径
+	 * 从地心到北极或南极的距离,大约6356.公里（两极的差极小,可以忽略）.
+	 * 赤道半径
+	 * 是从地心到赤道的距离,大约6378公里.
+	 * 平均半径
+	 * 大约6371..这个数字是地心到地球表面所有各点距离的平均值.
+	 */
 	private static double EARTH_RADIUS = 6378.137;
 
 	private static double rad(double d) {
