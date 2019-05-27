@@ -1,10 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.xdemo.app</groupId>
 	<artifactId>xutils</artifactId>
-	<version>1.4</version>
-	
+	<version>1.5</version>
+
 	<developers>
 		<developer>
 			<name>大飞哥</name>
@@ -12,7 +13,7 @@
 			<url>http://www.xdemo.org</url>
 		</developer>
 	</developers>
-	
+
 	<properties>
 		<ant>1.7.0</ant>
 		<mail>1.5.2</mail>
@@ -30,7 +31,8 @@
 		<commons-math>2.2</commons-math>
 		<commons-net>3.6</commons-net>
 		<jsch>0.1.54</jsch>
-		<vfs>2.1</vfs>
+		<vfs>2.3</vfs>
+		<argLine>-Dfile.encoding=UTF-8</argLine>
 	</properties>
 	<!-- 项目发布到私服 -->
 	<distributionManagement>
@@ -133,6 +135,11 @@
 			<artifactId>gson</artifactId>
 			<version>${gson}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.github.oshi</groupId>
+			<artifactId>oshi-core</artifactId>
+			<version>3.5.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
@@ -160,19 +167,9 @@
 				</executions>
 			</plugin>
 			<!-- generate a javadoc -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.8.1</version>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-javadoc-plugin</artifactId> 
+				<version>2.8.1</version> <executions> <execution> <id>attach-javadocs</id> 
+				<goals> <goal>jar</goal> </goals> </execution> </executions> </plugin> -->
 		</plugins>
 	</build>
 </project>
