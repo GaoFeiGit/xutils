@@ -54,7 +54,6 @@ public class HardwareUtils {
 		SystemInfo sys = new SystemInfo();
 		HardwareAbstractionLayer hal = sys.getHardware();
 		CentralProcessor cpu = hal.getProcessor();
-		System.out.println("逻辑处理器个数：" + cpu.getLogicalProcessorCount());
 		GlobalMemory gm = hal.getMemory();
 		return new Memory(gm.getAvailable(), gm.getTotal());
 	}
