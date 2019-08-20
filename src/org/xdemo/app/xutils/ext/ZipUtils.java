@@ -281,7 +281,7 @@ public class ZipUtils {
 	}
 	
 	public static void main(String[] args) {
-		zipDir("D:\\xx", "D:\\666.zip", "测试");
+		zipDir("D:\\fff", "D:\\666.zip", "测试");
 	}
 	
 }

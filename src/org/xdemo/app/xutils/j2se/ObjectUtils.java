@@ -1,13 +1,13 @@
 package org.xdemo.app.xutils.j2se;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-
-import org.apache.commons.lang3.exception.CloneFailedException;
 
 /**
  * Object工具类
@@ -106,68 +106,30 @@ public class ObjectUtils {
 			return new SimpleDateFormat(dateFormat).parse((String) o);
 		throw new Exception("Sorry,I don't know how to parse this value to a date");
 	}
-
-	/**
-	 * 对象复制
-	 * @param t1
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
-	 * @throws InvocationTargetException
-	 * @throws NoSuchMethodException
-	 * @throws SecurityException
-	 * @throws InstantiationException 
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T> T copy(T t1) throws Exception {
-		T t2=(T) t1.getClass().newInstance();
-		List<Method> setters = ReflectUtils.setterMethods(t1.getClass(), true);
-		for (Method m : setters) {
-			m.invoke(t2, new Object[] { t1.getClass().getMethod(m.getName().replaceFirst("s", "g"), null).invoke(t1, null) });
-		}
-		return t2;
-	}
 	
 	/**
-	 * 对象克隆，要求被克隆对象必须实现Cloneable接口,切需要重写close接口，并将protected改为public
-	 * @param obj
+	 * 对象克隆（深度）
+	 * @param t
 	 * @return
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @author Goofy 2019年7月24日 下午1:41:22
 	 */
-	public static <T> T clone(final T obj) {
-        if (obj instanceof Cloneable) {
-            final Object result;
-            if (obj.getClass().isArray()) {
-                final Class<?> componentType = obj.getClass().getComponentType();
-                if (!componentType.isPrimitive()) {
-                    result = ((Object[]) obj).clone();
-                } else {
-                    int length = Array.getLength(obj);
-                    result = Array.newInstance(componentType, length);
-                    while (length-- > 0) {
-                        Array.set(result, length, Array.get(obj, length));
-                    }
-                }
-            } else {
-                try {
-                    final Method clone = obj.getClass().getMethod("clone");
-                    result = clone.invoke(obj);
-                } catch (final NoSuchMethodException e) {
-                    throw new CloneFailedException("Cloneable type "
-                        + obj.getClass().getName()
-                        + " has no clone method", e);
-                } catch (final IllegalAccessException e) {
-                    throw new CloneFailedException("Cannot clone Cloneable type "
-                        + obj.getClass().getName(), e);
-                } catch (final InvocationTargetException e) {
-                    throw new CloneFailedException("Exception cloning Cloneable type "
-                        + obj.getClass().getName(), e.getCause());
-                }
-            }
-            @SuppressWarnings("unchecked") // OK because input is of type T
-            final T checked = (T) result;
-            return checked;
-        }
-
-        return null;
-    }
+	public static <T> T clone(T t) throws IOException, ClassNotFoundException {
+		ByteArrayOutputStream os=new ByteArrayOutputStream();
+		ObjectOutputStream oos=new ObjectOutputStream(new BufferedOutputStream(os));
+		oos.writeObject(t);
+		oos.flush();
+		
+		ObjectInputStream ois=new ObjectInputStream(new ByteArrayInputStream(os.toByteArray()));
+		@SuppressWarnings("unchecked")
+		T ret=(T) ois.readObject();
+		
+		ois.close();
+		oos.close();
+		os.close();
+		
+		return ret;
+	}
 
 }
