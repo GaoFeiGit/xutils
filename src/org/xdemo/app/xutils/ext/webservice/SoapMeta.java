@@ -1,6 +1,7 @@
 package org.xdemo.app.xutils.ext.webservice;
 
 import com.sun.xml.internal.ws.api.SOAPVersion;
+import org.xdemo.app.xutils.j2se.StringUtils;
 
 /**
  * Soap元信息
@@ -24,8 +25,8 @@ public class SoapMeta {
     public static final String xsd = "http://www.w3.org/2001/XMLSchema";
 
     public SoapMeta(String url, String namespace, Boolean targetIsJavaServer, SOAPVersion version) {
-        this.url = url;
-        this.namespace = namespace;
+        this.url = StringUtils.trim(url);
+        this.namespace = StringUtils.trim(namespace);
         this.version = version;
         this.targetIsJavaServer = targetIsJavaServer;
     }

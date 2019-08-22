@@ -1,7 +1,6 @@
 package org.xdemo.app.xutils.ext.webservice;
 
 
-import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
@@ -16,6 +15,7 @@ import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.convert.AnnotationStrategy;
 import org.simpleframework.xml.convert.Convert;
 import org.simpleframework.xml.core.Persister;
+import org.xdemo.app.xutils.j2se.StringUtils;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
@@ -236,7 +236,7 @@ public class SoapExecutor {
         startTime = System.currentTimeMillis();
         if (debug) {
             sb.append("目标：\n\t" + this.getMeta().getUrl() + "\n");
-            sb.append("SOAPAction:\n\t" + this.getMeta().getNamespace() + this.getBody().getMethod() + "\n");
+            sb.append("SOAPAction:\n\t" + this.getMeta().getNamespace() + (this.getMeta().getNamespace().endsWith("/") ? "" : "/") + this.getBody().getMethod() + "\n");
             sb.append("请求内容:\n" + xml + "\n");
             System.out.println(sb.toString());
         }
@@ -253,7 +253,7 @@ public class SoapExecutor {
         if (debug) {
             sb = new StringBuffer();
             if (!async) {
-                sb.append("响应:\n" + prettyFormat(responsedXML,4) + "\n");
+                sb.append("响应:\n" + prettyFormat(responsedXML, 4) + "\n");
                 endTime = System.currentTimeMillis();
                 sb.append("总耗时:\t" + (endTime - startTime) + "ms");
             } else {
@@ -277,9 +277,9 @@ public class SoapExecutor {
 
             post.setConfig(config());
             post.setHeader("Content-Type", this.getMeta().getVersion().contentType + ";charset=" + charset.name());
-            if(!this.getMeta().getTargetIsJavaServer()){
+            if (!this.getMeta().getTargetIsJavaServer()) {
                 //Java发布的webservice不需要这个header
-                post.setHeader("SOAPAction", this.getMeta().getNamespace() + this.getBody().getMethod());
+                post.setHeader("SOAPAction", this.getMeta().getNamespace() + (this.getMeta().getNamespace().endsWith("/") ? "" : "/") + this.getBody().getMethod());
             }
             StringEntity entity = new StringEntity(requestXML, charset);
 
@@ -291,7 +291,7 @@ public class SoapExecutor {
             } else {
                 responsedXML = httpPost(client, post);
             }
-        }finally {
+        } finally {
             //非异步的时候才能关闭，如果是异步，链接会提前关闭，无法获取结果
             if (!async && client != null) {
                 try {
@@ -305,6 +305,7 @@ public class SoapExecutor {
 
     /**
      * 获取响应的XML
+     *
      * @return
      */
     public String getResponsedXML() {
@@ -321,14 +322,14 @@ public class SoapExecutor {
                 responsedXML = task.get();
                 if (parser != null) {
                     responsedResult = parser.parse(this.getBody().getMethod(), responsedXML);
-                }else{
-                    if(debug){
+                } else {
+                    if (debug) {
                         System.out.println("未设置结果解析器，调用SoapResponse.getResponsedXML()获取返回的内容,自己解析");
                     }
                 }
             } catch (Exception e) {
-                ex=e;
-                success=false;
+                ex = e;
+                success = false;
                 e.printStackTrace();
             } finally {
                 try {
@@ -349,16 +350,18 @@ public class SoapExecutor {
 
     /**
      * 获取响应的解析后的结果
+     *
      * @return
      */
     public <T> T getResponsedResult() {
         asyncGet();
-        return (T)responsedResult;
+        return (T) responsedResult;
     }
 
 
     /**
      * 是否执行成功
+     *
      * @return
      */
     public boolean isSuccess() {
@@ -368,6 +371,7 @@ public class SoapExecutor {
 
     /**
      * 设置结果解析器
+     *
      * @param parser
      */
     public SoapExecutor setParser(SoapResultParser parser) {
@@ -377,6 +381,7 @@ public class SoapExecutor {
 
     /**
      * 发送http post请求
+     *
      * @param client
      * @param post
      * @return
@@ -389,7 +394,7 @@ public class SoapExecutor {
         try {
             httpResponse = client.execute(post);
             httpEntity = httpResponse.getEntity();
-            return IOUtils.toString(httpEntity.getContent());
+            return StringUtils.readFromInputStream(httpEntity.getContent());
         } finally {
             //非异步的时候才能关闭，如果是异步，链接会提前关闭，无法获取结果
             if (!async && httpResponse != null) {

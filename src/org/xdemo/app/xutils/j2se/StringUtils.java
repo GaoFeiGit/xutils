@@ -2,14 +2,12 @@ package org.xdemo.app.xutils.j2se;
 
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
 
 /**
  * 字符串工具类，部分方法来自网上<br>
@@ -301,18 +299,12 @@ public class StringUtils {
 
     /**
      * 从输入流中读取字符串
+     *
      * @param is
      * @return
      * @throws IOException
      */
-    public static String readFromInputStream(InputStream is) throws IOException {
-        byte[] buffer = new byte[1024 * 4];
-        ByteOutputStream os = new ByteOutputStream();
-        while (is.read(buffer) != -1) {
-            os.write(buffer);
-        }
-        String result = new String(os.getBytes(), StandardCharsets.UTF_8);
-        os.close();
-        return result;
+    public static String readFromInputStream(InputStream is){
+        return new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)).lines().collect(Collectors.joining(System.lineSeparator()));
     }
 }
