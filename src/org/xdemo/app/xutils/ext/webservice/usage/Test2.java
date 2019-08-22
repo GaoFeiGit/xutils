@@ -3,7 +3,6 @@ package org.xdemo.app.xutils.ext.webservice.usage;
 import com.sun.xml.internal.ws.api.SOAPVersion;
 import org.xdemo.app.xutils.ext.webservice.SoapBody;
 import org.xdemo.app.xutils.ext.webservice.SoapExecutor;
-import org.xdemo.app.xutils.ext.webservice.SoapHeader;
 import org.xdemo.app.xutils.ext.webservice.SoapMeta;
 
 public class Test2 {
