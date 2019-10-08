@@ -24,7 +24,6 @@ public abstract  class FileWatch extends Thread {
 		super(filename);
 		this.filename = filename;
 		file = new File(filename);
-		setDaemon(false);
 		checkAndConfigure();
 		this.start();
 	}
