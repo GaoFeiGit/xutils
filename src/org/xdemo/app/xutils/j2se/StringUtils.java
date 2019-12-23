@@ -1,7 +1,5 @@
 package org.xdemo.app.xutils.j2se;
 
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
-
 import java.io.*;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -164,6 +162,12 @@ public class StringUtils {
      * @return
      */
     public static boolean equals(String str1, String str2) {
+        if (str1 == null && str2 == null) {
+            return true;
+        }
+        if (str1 == null || str2 == null) {
+            return false;
+        }
         return str1.equals(str2);
     }
 
@@ -304,7 +308,7 @@ public class StringUtils {
      * @return
      * @throws IOException
      */
-    public static String readFromInputStream(InputStream is){
+    public static String readFromInputStream(InputStream is) {
         return new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)).lines().collect(Collectors.joining(System.lineSeparator()));
     }
 }

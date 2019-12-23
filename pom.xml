@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.xdemo.app</groupId>
     <artifactId>xutils</artifactId>
-    <version>1.5</version>
+    <version>1.5.1</version>
 
     <developers>
         <developer>
@@ -37,14 +37,13 @@
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-vfs2 -->
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-vfs2</artifactId>
             <version>${vfs}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->
         <dependency>
             <groupId>com.jcraft</groupId>
             <artifactId>jsch</artifactId>
