@@ -20,7 +20,7 @@
         <simple-xml>2.7.1</simple-xml>
         <httpclient>4.5.3</httpclient>
         <poi>3.17</poi>
-        <gson>2.3.1</gson>
+        <gson>2.8.9</gson>
         <itext>1.3.1</itext>
         <servlet>3.1.0</servlet>
         <freemarker>2.3.22</freemarker>
