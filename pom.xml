@@ -30,7 +30,7 @@
         <commons-math>2.2</commons-math>
         <commons-net>3.6</commons-net>
         <jsch>0.1.54</jsch>
-        <vfs>2.3</vfs>
+        <vfs>2.10.0</vfs>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <argLine>-Dfile.encoding=UTF-8</argLine>
